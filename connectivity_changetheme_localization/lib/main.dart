@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           create: (context) => ConnectivityBloc(),
         ),
       ],
-      child: BlocBuilder<ThemeBloc, ThemeState>(builder: (context, themeState) {
+      child: /*BlocBuilder<ThemeBloc, ThemeState>(builder: (context, themeState) {
         var theme = themeState is AppChangeTeme ? themeState.appThmem : 'l';
         return BlocBuilder<LanguageBloc, LanguageState>(
           builder: (context, langState) {
@@ -46,14 +46,14 @@ class MyApp extends StatelessWidget {
               builder: (context, internetState) {
                 var message = internetState is IntertetConnected
                     ? internetState.internetMessage
-                    : 'internet Not connected';
-                return material_app(lang: lang, theme: theme, message: message);
-              },
-            );
-          },
-        );
-      }),
+                    : 'internet Not connected';*/
+          material_app(),
+      // },
+      // )
+      // },
+      // );
+      // },
+      // ),
     );
   }
 }
-
