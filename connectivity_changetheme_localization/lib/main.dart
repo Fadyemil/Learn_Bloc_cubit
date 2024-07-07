@@ -4,7 +4,8 @@ import 'package:connectivity_changetheme_localization/Business%20logic%20layer/l
 import 'package:connectivity_changetheme_localization/Business%20logic%20layer/theme/theme_bloc.dart';
 import 'package:connectivity_changetheme_localization/data%20layer/helper/contanst.dart';
 // import 'package:connectivity_changetheme_localization/data%20layer/helper/lang/appLocalizations.dart';
-import 'package:connectivity_changetheme_localization/data%20layer/helper/lang/materAppLocalization.dart';
+import 'package:connectivity_changetheme_localization/data%20layer/helper/materApp.dart';
+import 'package:connectivity_changetheme_localization/data%20layer/helper/observers/app_bloc_observer.dart';
 // import 'package:connectivity_changetheme_localization/data%20layer/helper/lang/materAppLocalization.dart';
 // import 'package:connectivity_changetheme_localization/presentation%20layer/screen/MyHomePage.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPreferences = await SharedPreferences.getInstance();
+  Bloc.observer = AppBlocObserver();
   runApp(const MyApp());
 }
 
@@ -47,7 +49,14 @@ class MyApp extends StatelessWidget {
                 var message = internetState is IntertetConnected
                     ? internetState.internetMessage
                     : 'internet Not connected';*/
-          material_app(),
+          BlocBuilder<ConnectivityBloc, ConnectivityState>(
+        builder: (context, state) {
+          var message = state is IntertetConnected
+              ? state.internetMessage
+              : 'internet Not connected';
+          return material_app(message);
+        },
+      ),
       // },
       // )
       // },

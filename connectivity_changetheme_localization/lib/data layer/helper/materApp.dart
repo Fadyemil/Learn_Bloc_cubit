@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 class material_app extends StatelessWidget {
-  const material_app();
+  const material_app(this.message);
   /* const material_app({
     super.key,
     required this.lang,
@@ -22,6 +22,7 @@ class material_app extends StatelessWidget {
   final String? lang;
   final String? theme;
   final String? message;*/
+  final String? message;
 
   @override
   Widget build(BuildContext context) {
@@ -37,80 +38,74 @@ class material_app extends StatelessWidget {
                 : const Locale('ar')
             : const Locale('en'),
         supportedLocales: const [
-          Locale('en'), // الإنجليزية
-          Locale('ar'), // العربية
+          Locale('en'), // English
+          Locale('ar'), // Arabic
         ],
-        //~ القوائم المفوضة لترجمة النصوص وعناصر الواجهة
+        //~ Delegates for translating texts and UI elements
         localizationsDelegates: [
-          AppLocalizations.delegate, //^ المفوض الخاص بالترجمات المخصصة لتطبيقك
+          AppLocalizations
+              .delegate, //^ Custom translations delegate for your app
           GlobalMaterialLocalizations
-              .delegate, //^ المفوض لترجمات واجهات مكتبة الـMaterial
+              .delegate, //^ Translations delegate for Material library
           GlobalWidgetsLocalizations
-              .delegate, //^ المفوض لترجمات الواجهات العامة
+              .delegate, //^ General UI translations delegate
           GlobalCupertinoLocalizations
-              .delegate, //^ المفوض لترجمات واجهات مكتبة الـCupertino
+              .delegate, //^ Translations delegate for Cupertino library
         ],
-        //~ دالة لتحديد اللغة المفضلة بناءً على إعدادات جهاز المستخدم
+        //~ Function to determine the preferred language based on user device settings
         localeListResolutionCallback: (deviceLocale, supportedLocales) {
-          //~ التحقق من اللغات المدعومة ومطابقتها مع لغة الجهاز
+          //~ Check supported languages and match them with the device language
           for (var locale in supportedLocales) {
             if (deviceLocale != null) {
-              Locale device =
-                  deviceLocale.first; //* الحصول على أول لغة مفضلة في الجهاز
+              Locale device = deviceLocale
+                  .first; //* Get the first preferred language on the device
               if (device.languageCode == locale.languageCode) {
-                return device; //* إعادة لغة الجهاز إذا كانت مدعومة
+                return device; //* Return device language if supported
               }
             }
           }
           return supportedLocales
-              .first; //* إذا لم تكن لغة الجهاز مدعومة، يتم استخدام اللغة الافتراضية
+              .first; //* Use default language if device language is not supported
         },
         theme: (themeState is AppChangeTeme)
             ? (themeState.appThmem == 'l')
                 ? ThemeData.light()
                 : ThemeData.dark()
             : ThemeData.light(),
-        home: MyHomePage(
-            message: connectivityState is IntertetConnected
-                ? ' internet connection '
-                : ' internet not connection'),
+        home: MyHomePage(message: message!),
       );
     });
     //  return MaterialApp(
     //   locale: Locale(lang!),
-    //   //~ دعم اللغات المتوفرة
+    //   //~ Support available languages
     //   supportedLocales: const [
-    //     Locale('en'), // الإنجليزية
-    //     Locale('ar'), // العربية
+    //     Locale('en'), // English
+    //     Locale('ar'), // Arabic
     //   ],
 
-    //   //~ القوائم المفوضة لترجمة النصوص وعناصر الواجهة
+    //   //~ Delegates for translating texts and UI elements
     //   localizationsDelegates: [
-    //     AppLocalizations
-    //         .delegate, //^ المفوض الخاص بالترجمات المخصصة لتطبيقك
-    //     GlobalMaterialLocalizations
-    //         .delegate, //^ المفوض لترجمات واجهات مكتبة الـMaterial
-    //     GlobalWidgetsLocalizations
-    //         .delegate, //^ المفوض لترجمات الواجهات العامة
-    //     GlobalCupertinoLocalizations
-    //         .delegate, //^ المفوض لترجمات واجهات مكتبة الـCupertino
+    //     AppLocalizations.delegate, //^ Custom translations delegate for your app
+    //     GlobalMaterialLocalizations.delegate, //^ Translations delegate for Material library
+    //     GlobalWidgetsLocalizations.delegate, //^ General UI translations delegate
+    //     GlobalCupertinoLocalizations.delegate, //^ Translations delegate for Cupertino library
     //   ],
 
-    //   //~ دالة لتحديد اللغة المفضلة بناءً على إعدادات جهاز المستخدم
+    //   //~ Function to determine the preferred language based on user device settings
     //   localeListResolutionCallback:
     //       (deviceLocale, supportedLocales) {
-    //     //~ التحقق من اللغات المدعومة ومطابقتها مع لغة الجهاز
+    //     //~ Check supported languages and match them with the device language
     //     for (var locale in supportedLocales) {
     //       if (deviceLocale != null) {
     //         Locale device = deviceLocale
-    //             .first; //* الحصول على أول لغة مفضلة في الجهاز
+    //             .first; //* Get the first preferred language on the device
     //         if (device.languageCode == locale.languageCode) {
-    //           return device; //* إعادة لغة الجهاز إذا كانت مدعومة
+    //           return device; //* Return device language if supported
     //         }
     //       }
     //     }
     //     return supportedLocales
-    //         .first; //* إذا لم تكن لغة الجهاز مدعومة، يتم استخدام اللغة الافتراضية
+    //         .first; //* Use default language if device language is not supported
     //   },
 
     //   title: 'Flutter Demo',
